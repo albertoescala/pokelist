@@ -6,6 +6,14 @@
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
+    <ul>
+      <li v-for="(pokemon) in pokemonList" :key="pokemon.name">
+        <div >
+          <p>{{pokemon.name}}</p>
+        </div>
+      </li>
+    </ul>
+    <p>{{info}}</p>
     <h3>Installed CLI Plugins</h3>
     <ul>
       <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
@@ -31,10 +39,22 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'HelloWorld',
+  data() {
+    return {
+      pokemonList: []
+    }
+  },
   props: {
     msg: String
+  },
+  mounted () {
+    axios
+      .get('https://pokeapi.co/api/v2/pokemon?limit=10&offset=0')
+      .then(response => (this.pokemonList = response.data.results))
   }
 }
 </script>
